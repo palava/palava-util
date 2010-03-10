@@ -40,6 +40,7 @@ import de.cosmocode.palava.ipc.IpcCommand.Param;
 import de.cosmocode.palava.ipc.IpcCommand.Return;
 import de.cosmocode.palava.ipc.IpcCommand.Throw;
 import de.cosmocode.palava.ipc.IpcCommand.Throws;
+import de.cosmocode.palava.services.cache.command.Cache;
 
 /**
  * See below.
@@ -58,6 +59,7 @@ import de.cosmocode.palava.ipc.IpcCommand.Throws;
     @Throw(name = IllegalArgumentException.class, description = "If the specified class is no enum class")
 })
 @Singleton
+@Cache
 public final class ValuesOf implements IpcCommand {
 
     public static final String CLASS = "class";

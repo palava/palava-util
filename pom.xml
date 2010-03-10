@@ -19,6 +19,11 @@
       <version>0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
+      <groupId>de.cosmocode.palava</groupId>
+      <artifactId>palava-command-cache</artifactId>
+      <version>2.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
       <groupId>de.cosmocode</groupId>
       <artifactId>cosmocode-commons</artifactId>
       <version>1.3-SNAPSHOT</version>
@@ -37,6 +42,7 @@
     <dependency>
       <groupId>de.cosmocode</groupId>
       <artifactId>log4j-config</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>
