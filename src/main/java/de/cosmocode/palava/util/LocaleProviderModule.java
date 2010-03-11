@@ -45,7 +45,7 @@ public final class LocaleProviderModule implements Module {
 
     @Override
     public void configure(Binder binder) {
-
+        
     }
 
     /**
