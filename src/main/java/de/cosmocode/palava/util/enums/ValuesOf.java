@@ -40,7 +40,7 @@ import de.cosmocode.palava.ipc.IpcCommand.Param;
 import de.cosmocode.palava.ipc.IpcCommand.Return;
 import de.cosmocode.palava.ipc.IpcCommand.Throw;
 import de.cosmocode.palava.ipc.IpcCommand.Throws;
-import de.cosmocode.palava.services.cache.command.Cache;
+import de.cosmocode.palava.ipc.cache.Cache;
 
 /**
  * See below.
