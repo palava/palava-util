@@ -32,7 +32,6 @@ import com.google.inject.name.Named;
 
 import de.cosmocode.commons.Locales;
 import de.cosmocode.palava.ipc.Context;
-import de.cosmocode.palava.ipc.IpcSessionScoped;
 
 /**
  * Provides the current locale. 
@@ -56,7 +55,6 @@ public final class LocaleProviderModule implements Module {
      * @return the user's locale
      */
     @Provides
-    @IpcSessionScoped
     Locale getLocale(@Named(Context.LOCALE) String value, @Named(UtilityConfig.LOCALE_DEFAULT) Locale defaultLocale) {
         if (StringUtils.isBlank(value)) {
             LOG.trace("No locale found in session, using {}", defaultLocale);
