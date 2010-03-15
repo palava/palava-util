@@ -30,6 +30,7 @@ import com.google.inject.name.Names;
 
 import de.cosmocode.junit.UnitProvider;
 import de.cosmocode.palava.core.RegistryModule;
+import de.cosmocode.palava.ipc.Context;
 import de.cosmocode.palava.ipc.IpcModule;
 
 /**
@@ -54,8 +55,9 @@ public final class LocaleProviderModuleTest implements UnitProvider<LocaleProvid
                 
                 @Override
                 public void configure(Binder binder) {
-                    binder.bind(Locale.class).annotatedWith(Names.named("locale.default")).toInstance(Locale.ENGLISH);
-                    binder.bind(String.class).annotatedWith(Names.named("context.locale")).toInstance("de");
+                    binder.bind(Locale.class).annotatedWith(
+                        Names.named(UtilityConfig.LOCALE_DEFAULT)).toInstance(Locale.ENGLISH);
+                    binder.bind(String.class).annotatedWith(Names.named(Context.LOCALE)).toInstance("de");
                 }
                 
             }
