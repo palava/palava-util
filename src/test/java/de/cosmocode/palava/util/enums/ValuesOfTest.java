@@ -73,6 +73,7 @@ public final class ValuesOfTest implements UnitProvider<ValuesOf> {
         Assert.assertFalse(values.isEmpty());
         
         Assert.assertEquals(Lists.transform(Arrays.asList(TimeUnit.values()), Functions.toStringFunction()), values);
+        EasyMock.verify(call, arguments);
     }
     
     /**
@@ -93,6 +94,7 @@ public final class ValuesOfTest implements UnitProvider<ValuesOf> {
         try {
             unit().execute(call, result);
         } catch (IpcCommandExecutionException e) {
+            EasyMock.verify(call, arguments);
             if (e.getCause() instanceof ClassNotFoundException) {
                 throw ClassNotFoundException.class.cast(e.getCause());
             } else {
@@ -117,6 +119,7 @@ public final class ValuesOfTest implements UnitProvider<ValuesOf> {
         try {
             unit().execute(call, result);
         } catch (IpcCommandExecutionException e) {
+            EasyMock.verify(call, arguments);
             if (e.getCause() instanceof IllegalArgumentException) {
                 throw IllegalArgumentException.class.cast(e.getCause());
             } else {
