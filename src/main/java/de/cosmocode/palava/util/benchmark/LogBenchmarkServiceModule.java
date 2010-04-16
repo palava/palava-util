@@ -14,22 +14,26 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA  02110-1301, USA.
  */
 
-package de.cosmocode.palava.util;
+package de.cosmocode.palava.util.benchmark;
+
+import com.google.inject.Binder;
+import com.google.inject.Module;
+import com.google.inject.Singleton;
 
 /**
- * Static constant holder class for utility config key names.
+ * Binds {@link BenchmarkService} to {@link LogBenchmarkService}.
  *
  * @author Willi Schoenborn
  */
-public final class UtilityConfig {
+public final class LogBenchmarkServiceModule implements Module {
 
-    public static final String LOCALE_DEFAULT = "locale.default";
-    
-    private UtilityConfig() {
-        
+    @Override
+    public void configure(Binder binder) {
+        binder.bind(BenchmarkService.class).to(LogBenchmarkService.class).in(Singleton.class);
     }
 
 }

@@ -14,22 +14,28 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA  02110-1301, USA.
  */
 
-package de.cosmocode.palava.util;
+package de.cosmocode.palava.util.benchmark;
+
+import de.cosmocode.palava.ipc.Commands;
+import de.cosmocode.palava.ipc.FilterModule;
+import de.cosmocode.palava.ipc.IpcCommand;
 
 /**
- * Static constant holder class for utility config key names.
+ * Configures the {@link BenchmarkFilter} to run around all {@link IpcCommand}s.
+ * It's strongly recommended to configure this service as your first to ensure it
+ * benchmarks all your configured filters.
  *
  * @author Willi Schoenborn
  */
-public final class UtilityConfig {
+public final class BenchmarkFilterModule extends FilterModule {
 
-    public static final String LOCALE_DEFAULT = "locale.default";
-    
-    private UtilityConfig() {
-        
+    @Override
+    protected void configure() {
+        filter(Commands.any()).through(BenchmarkFilter.class);
     }
 
 }

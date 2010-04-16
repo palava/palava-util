@@ -14,22 +14,35 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA  02110-1301, USA.
  */
 
-package de.cosmocode.palava.util;
+package de.cosmocode.palava.util.benchmark;
+
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import de.cosmocode.palava.ipc.IpcCall;
+import de.cosmocode.palava.ipc.IpcCommand;
 
 /**
- * Static constant holder class for utility config key names.
+ * A service which logs command execution time.
  *
  * @author Willi Schoenborn
  */
-public final class UtilityConfig {
+public interface BenchmarkService {
 
-    public static final String LOCALE_DEFAULT = "locale.default";
+    /**
+     * Logs the given results.
+     * 
+     * @param command the command being called
+     * @param time the time spent executing
+     * @param timeUnit the unit of time
+     * @param call the incoming call
+     * @param result the unmodifiable result
+     */
+    void log(Class<? extends IpcCommand> command, long time, TimeUnit timeUnit, 
+        IpcCall call, Map<String, Object> result);
     
-    private UtilityConfig() {
-        
-    }
-
 }

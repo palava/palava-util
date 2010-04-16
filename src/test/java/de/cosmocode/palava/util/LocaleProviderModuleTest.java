@@ -29,12 +29,12 @@ import com.google.inject.Module;
 import com.google.inject.name.Names;
 
 import de.cosmocode.junit.UnitProvider;
-import de.cosmocode.palava.core.RegistryModule;
+import de.cosmocode.palava.core.DefaultRegistryModule;
 import de.cosmocode.palava.ipc.Context;
 import de.cosmocode.palava.ipc.IpcModule;
 
 /**
- * 
+ * Tests {@link LocaleProviderModule}.
  *
  * @author Willi Schoenborn
  */
@@ -45,12 +45,15 @@ public final class LocaleProviderModuleTest implements UnitProvider<LocaleProvid
         return new LocaleProviderModule();
     }
     
+    /**
+     * Tests {@link Guice#createInjector(Module...)} with a custom locale binding.
+     */
     @Test
     public void createInjector() {
         Guice.createInjector(
             unit(),
             new IpcModule(),
-            new RegistryModule(),
+            new DefaultRegistryModule(),
             new Module() {
                 
                 @Override
