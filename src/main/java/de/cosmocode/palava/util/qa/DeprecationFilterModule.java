@@ -25,7 +25,7 @@ import de.cosmocode.palava.ipc.FilterModule;
  *
  * @author Willi Schoenborn
  */
-public final class DeprecationModule extends FilterModule {
+public final class DeprecationFilterModule extends FilterModule {
 
     @Override
     protected void configure() {
