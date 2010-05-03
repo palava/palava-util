@@ -43,7 +43,7 @@ final class DeprecationFilter implements IpcCallFilter {
     
     private static final Logger LOG = LoggerFactory.getLogger(DeprecationFilter.class);
 
-    private QualityMode mode = QualityMode.WARN;
+    private QualityMode mode = QualityMode.WARNING;
     
     @Inject(optional = true)
     void setMode(@Named(QualityConfig.MODE) QualityMode mode) {
@@ -55,9 +55,9 @@ final class DeprecationFilter implements IpcCallFilter {
         throws IpcCommandExecutionException {
         
         switch (mode) {
-            case WARN: {
+            case WARNING: {
                 LOG.warn("Command {} is deprecated", command);
-                return chain.filter(call, command);
+                break;
             }
             case FAIL: {
                 throw new UnsupportedOperationException(String.format("%s is deprecated", command));
@@ -67,6 +67,7 @@ final class DeprecationFilter implements IpcCallFilter {
             }
         }
         
+        return chain.filter(call, command);
     }
 
 }

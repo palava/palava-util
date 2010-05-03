@@ -28,7 +28,7 @@ public enum QualityMode {
      * Quality assurance filters log a warning but do not fail
      * when running in this mode.
      */
-    WARN, 
+    WARNING, 
     
     /**
      * Quality assurance filters throw an appropriate exception

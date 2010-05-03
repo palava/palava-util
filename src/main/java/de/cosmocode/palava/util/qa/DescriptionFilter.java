@@ -44,7 +44,7 @@ final class DescriptionFilter implements IpcCallFilter {
 
     private static final Logger LOG = LoggerFactory.getLogger(DescriptionFilter.class);
 
-    private QualityMode mode = QualityMode.WARN;
+    private QualityMode mode = QualityMode.WARNING;
     
     @Inject(optional = true)
     void setMode(@Named(QualityConfig.MODE) QualityMode mode) {
@@ -56,9 +56,9 @@ final class DescriptionFilter implements IpcCallFilter {
         throws IpcCommandExecutionException {
         
         switch (mode) {
-            case WARN: {
+            case WARNING: {
                 LOG.warn("Command {} has no description", command);
-                return chain.filter(call, command);
+                break;
             }
             case FAIL: {
                 throw new IllegalStateException(String.format("Missing description for %s", command));
@@ -67,6 +67,8 @@ final class DescriptionFilter implements IpcCallFilter {
                 throw new AssertionError(mode);
             }
         }
+        
+        return chain.filter(call, command);
     }
 
 }
