@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Singleton;
 
@@ -83,7 +84,7 @@ public final class ValuesOf implements IpcCommand {
         final Enum<?>[] array = type.asSubclass(Enum.class).getEnumConstants();
         final List<Enum<?>> list = Arrays.asList(array);
         LOG.trace("Found enum values for {}: {}", type, list);
-        final List<String> values = Lists.transform(list, Enums.nameFunction());
+        final List<String> values = ImmutableList.copyOf(Lists.transform(list, Enums.name()));
         
         result.put(VALUES, values);
     }
