@@ -28,6 +28,7 @@ import de.cosmocode.commons.Codec;
 /**
  * Binding annotation for language based {@link Codec}s.
  *
+ * @since 1.1
  * @author Oliver Lorenz
  */
 @Retention(RetentionPolicy.RUNTIME)

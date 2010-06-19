@@ -38,6 +38,9 @@ import de.cosmocode.junit.UnitProvider;
  */
 public class LanguageTwoLetterCodecModuleTest implements UnitProvider<LanguageTwoLetterCodecModule> {
     
+    private static final Locale LOCALE = Locale.GERMAN;
+    private static final String CODE = "de";
+    
     @Override
     public LanguageTwoLetterCodecModule unit() {
         return new LanguageTwoLetterCodecModule();
@@ -51,7 +54,7 @@ public class LanguageTwoLetterCodecModuleTest implements UnitProvider<LanguageTw
         final Injector injector = Guice.createInjector(unit());
         final Codec<Locale, String> codec = injector.getInstance(
             Key.get(new TypeLiteral<Codec<Locale, String>>() { }, Language.class));
-        Assert.assertEquals("de", codec.encode(Locale.GERMAN));
+        Assert.assertEquals(CODE, codec.encode(LOCALE));
     }
 
     /**
@@ -62,7 +65,7 @@ public class LanguageTwoLetterCodecModuleTest implements UnitProvider<LanguageTw
         final Injector injector = Guice.createInjector(unit());
         final Bijection<Locale, String> languageFunc = injector.getInstance(
             Key.get(new TypeLiteral<Bijection<Locale, String>>() { }, Language.class));
-        Assert.assertEquals("de", languageFunc.apply(Locale.GERMAN));
+        Assert.assertEquals(CODE, languageFunc.apply(LOCALE));
     }
 
     /**
@@ -73,7 +76,7 @@ public class LanguageTwoLetterCodecModuleTest implements UnitProvider<LanguageTw
         final Injector injector = Guice.createInjector(unit());
         final Function<Locale, String> languageFunc = injector.getInstance(
             Key.get(new TypeLiteral<Function<Locale, String>>() { }, Language.class));
-        Assert.assertEquals("de", languageFunc.apply(Locale.GERMAN));
+        Assert.assertEquals(CODE, languageFunc.apply(LOCALE));
     }
 
     /**
@@ -84,7 +87,7 @@ public class LanguageTwoLetterCodecModuleTest implements UnitProvider<LanguageTw
         final Injector injector = Guice.createInjector(unit());
         final Codec<String, Locale> codec = injector.getInstance(
             Key.get(new TypeLiteral<Codec<String, Locale>>() { }, Language.class));
-        Assert.assertEquals(Locale.GERMAN, codec.encode("de"));
+        Assert.assertEquals(LOCALE, codec.encode(CODE));
     }
 
     /**
@@ -95,7 +98,7 @@ public class LanguageTwoLetterCodecModuleTest implements UnitProvider<LanguageTw
         final Injector injector = Guice.createInjector(unit());
         final Bijection<String, Locale> languageFunc = injector.getInstance(
                 Key.get(new TypeLiteral<Bijection<String, Locale>>() { }, Language.class));
-        Assert.assertEquals(Locale.GERMAN, languageFunc.apply("de"));
+        Assert.assertEquals(LOCALE, languageFunc.apply(CODE));
     }
 
     /**
@@ -106,7 +109,7 @@ public class LanguageTwoLetterCodecModuleTest implements UnitProvider<LanguageTw
         final Injector injector = Guice.createInjector(unit());
         final Function<String, Locale> languageFunc = injector.getInstance(
                 Key.get(new TypeLiteral<Function<String, Locale>>() { }, Language.class));
-        Assert.assertEquals(Locale.GERMAN, languageFunc.apply("de"));
+        Assert.assertEquals(LOCALE, languageFunc.apply(CODE));
     }
 
     /**
