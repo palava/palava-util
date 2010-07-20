@@ -17,18 +17,15 @@
 package de.cosmocode.palava.util.enums;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import com.google.inject.Singleton;
 
-import de.cosmocode.commons.Enums;
+import de.cosmocode.commons.reflect.Reflection;
 import de.cosmocode.palava.ipc.IpcArguments;
 import de.cosmocode.palava.ipc.IpcCall;
 import de.cosmocode.palava.ipc.IpcCommand;
@@ -74,17 +71,19 @@ public final class ValuesOf implements IpcCommand {
         
         try {
             LOG.trace("Retrieving enum values for {}", name);
-            type = Class.forName(name);
+            type = Reflection.forName(name);
         } catch (ClassNotFoundException e) {
             throw new IpcCommandExecutionException(e);
         }
         
         Preconditions.checkArgument(type.isEnum(), "%s is no enum type", type);
         
-        final Enum<?>[] array = type.asSubclass(Enum.class).getEnumConstants();
-        final List<Enum<?>> list = Arrays.asList(array);
-        LOG.trace("Found enum values for {}: {}", type, list);
-        final List<String> values = ImmutableList.copyOf(Lists.transform(list, Enums.name()));
+        final Enum<?>[] values = type.asSubclass(Enum.class).getEnumConstants();
+        
+        if (LOG.isTraceEnabled()) {
+            // to prevent heavy toString call
+            LOG.trace("Found enum values for {}: {}", type, Arrays.toString(values));
+        }
         
         result.put(VALUES, values);
     }

@@ -17,8 +17,6 @@
 package de.cosmocode.palava.util.enums;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -26,8 +24,6 @@ import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.google.common.base.Functions;
-import com.google.common.collect.Lists;
 import com.google.inject.internal.Maps;
 
 import de.cosmocode.junit.UnitProvider;
@@ -63,13 +59,12 @@ public final class ValuesOfTest implements UnitProvider<ValuesOf> {
         final Map<String, Object> result = Maps.newLinkedHashMap();
         unit().execute(call, result);
         
-        @SuppressWarnings("unchecked")
-        final List<String> values = List.class.cast(result.get(ValuesOf.VALUES));
+        final Enum<?>[] values = Enum[].class.cast(result.get(ValuesOf.VALUES));
         
         Assert.assertNotNull(values);
-        Assert.assertFalse(values.isEmpty());
+        Assert.assertFalse(values.length == 0);
         
-        Assert.assertEquals(Lists.transform(Arrays.asList(TimeUnit.values()), Functions.toStringFunction()), values);
+        Assert.assertArrayEquals(TimeUnit.values(), values);
         EasyMock.verify(call, arguments);
     }
     
