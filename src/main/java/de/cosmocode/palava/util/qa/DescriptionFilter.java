@@ -30,8 +30,8 @@ import de.cosmocode.palava.ipc.IpcCall;
 import de.cosmocode.palava.ipc.IpcCallFilter;
 import de.cosmocode.palava.ipc.IpcCallFilterChain;
 import de.cosmocode.palava.ipc.IpcCommand;
-import de.cosmocode.palava.ipc.IpcCommandExecutionException;
 import de.cosmocode.palava.ipc.IpcCommand.Description;
+import de.cosmocode.palava.ipc.IpcCommandExecutionException;
 
 /**
  * A filter which logs a warning or throws an {@link IllegalStateException}
