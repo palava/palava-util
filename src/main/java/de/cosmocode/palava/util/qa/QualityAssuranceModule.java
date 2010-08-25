@@ -30,6 +30,7 @@ public final class QualityAssuranceModule implements Module {
     public void configure(Binder binder) {
         binder.install(new DeprecationFilterModule());
         binder.install(new DescriptionFilterModule());
+        binder.install(new UnusedFilterModule());
     }
 
 }

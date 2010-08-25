@@ -28,7 +28,7 @@ import com.google.inject.name.Names;
 import de.cosmocode.junit.UnitProvider;
 import de.cosmocode.palava.core.DefaultRegistryModule;
 import de.cosmocode.palava.ipc.Context;
-import de.cosmocode.palava.ipc.IpcModule;
+import de.cosmocode.palava.ipc.IpcScopeModule;
 
 /**
  * Tests {@link LocaleProviderModule}.
@@ -49,7 +49,7 @@ public final class LocaleProviderModuleTest implements UnitProvider<LocaleProvid
     public void createInjector() {
         Guice.createInjector(
             unit(),
-            new IpcModule(),
+            new IpcScopeModule(),
             new DefaultRegistryModule(),
             new Module() {
                 
