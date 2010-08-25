@@ -21,13 +21,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.google.inject.internal.Preconditions;
-import com.google.inject.name.Named;
 
 import de.cosmocode.palava.ipc.IpcCall;
-import de.cosmocode.palava.ipc.IpcCallFilter;
 import de.cosmocode.palava.ipc.IpcCallFilterChain;
 import de.cosmocode.palava.ipc.IpcCommand;
 import de.cosmocode.palava.ipc.IpcCommandExecutionException;
@@ -39,22 +35,15 @@ import de.cosmocode.palava.ipc.IpcCommandExecutionException;
  * @author Willi Schoenborn
  */
 @Singleton
-final class DeprecationFilter implements IpcCallFilter {
+final class DeprecationFilter extends QualityFilter {
     
     private static final Logger LOG = LoggerFactory.getLogger(DeprecationFilter.class);
-
-    private QualityMode mode = QualityMode.WARNING;
-    
-    @Inject(optional = true)
-    void setMode(@Named(QualityConfig.MODE) QualityMode mode) {
-        this.mode = Preconditions.checkNotNull(mode, "Mode");
-    }
 
     @Override
     public Map<String, Object> filter(IpcCall call, IpcCommand command, IpcCallFilterChain chain)
         throws IpcCommandExecutionException {
         
-        switch (mode) {
+        switch (getMode()) {
             case WARNING: {
                 LOG.warn("Command {} is deprecated", command);
                 break;
@@ -63,7 +52,7 @@ final class DeprecationFilter implements IpcCallFilter {
                 throw new UnsupportedOperationException(String.format("%s is deprecated", command));
             }
             default: {
-                throw new AssertionError(mode);
+                throw new AssertionError(getMode());
             }
         }
         

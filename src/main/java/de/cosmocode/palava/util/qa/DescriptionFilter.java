@@ -21,13 +21,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.google.inject.internal.Preconditions;
-import com.google.inject.name.Named;
 
 import de.cosmocode.palava.ipc.IpcCall;
-import de.cosmocode.palava.ipc.IpcCallFilter;
 import de.cosmocode.palava.ipc.IpcCallFilterChain;
 import de.cosmocode.palava.ipc.IpcCommand;
 import de.cosmocode.palava.ipc.IpcCommand.Description;
@@ -40,22 +36,15 @@ import de.cosmocode.palava.ipc.IpcCommandExecutionException;
  * @author Willi Schoenborn
  */
 @Singleton
-final class DescriptionFilter implements IpcCallFilter {
+final class DescriptionFilter extends QualityFilter {
 
     private static final Logger LOG = LoggerFactory.getLogger(DescriptionFilter.class);
-
-    private QualityMode mode = QualityMode.WARNING;
-    
-    @Inject(optional = true)
-    void setMode(@Named(QualityConfig.MODE) QualityMode mode) {
-        this.mode = Preconditions.checkNotNull(mode, "Mode");
-    }
     
     @Override
     public Map<String, Object> filter(IpcCall call, IpcCommand command, IpcCallFilterChain chain)
         throws IpcCommandExecutionException {
         
-        switch (mode) {
+        switch (getMode()) {
             case WARNING: {
                 LOG.warn("Command {} has no description", command);
                 break;
@@ -64,7 +53,7 @@ final class DescriptionFilter implements IpcCallFilter {
                 throw new IllegalStateException(String.format("Missing description for %s", command));
             }
             default: {
-                throw new AssertionError(mode);
+                throw new AssertionError(getMode());
             }
         }
         
