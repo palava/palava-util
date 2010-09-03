@@ -91,7 +91,7 @@ final class UnusedFilter implements IpcCallFilter, Initializable, Runnable {
     public void run() {
         if (commands.isEmpty()) {
             LOG.info("Congratulations, all commands are currently in use.");
-        } else {
+        } else if (LOG.isWarnEnabled()) {
             LOG.warn("Unused commands:\n{}", joiner.join(commands));
         }
     }
