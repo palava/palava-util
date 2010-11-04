@@ -37,7 +37,7 @@ import com.google.inject.name.Named;
 import de.cosmocode.commons.reflect.Classpath;
 import de.cosmocode.commons.reflect.Packages;
 import de.cosmocode.commons.reflect.Reflection;
-import de.cosmocode.palava.concurrent.BackgroundScheduler;
+import de.cosmocode.palava.concurrent.Background;
 import de.cosmocode.palava.core.lifecycle.Initializable;
 import de.cosmocode.palava.core.lifecycle.LifecycleException;
 import de.cosmocode.palava.ipc.IpcCall;
@@ -67,7 +67,7 @@ final class UnusedFilter implements IpcCallFilter, Initializable, Runnable {
     
     @Inject
     public UnusedFilter(@Named(UnusedConfig.PACKAGES) List<String> packageNames, 
-            @BackgroundScheduler ScheduledExecutorService scheduler) {
+            @Background ScheduledExecutorService scheduler) {
         
         final Classpath classpath = Reflection.defaultClasspath();
         final Packages packages = classpath.restrictTo(packageNames);
