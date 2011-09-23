@@ -16,17 +16,16 @@
 
 package de.cosmocode.palava.util.benchmark;
 
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
+import com.google.common.base.Preconditions;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+import de.cosmocode.palava.ipc.IpcCall;
+import de.cosmocode.palava.ipc.IpcCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Preconditions;
-import com.google.inject.name.Named;
-
-import de.cosmocode.palava.ipc.IpcCall;
-import de.cosmocode.palava.ipc.IpcCommand;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Default implementation of the {@link BenchmarkService} which logs all
@@ -37,11 +36,12 @@ import de.cosmocode.palava.ipc.IpcCommand;
 final class LogBenchmarkService implements BenchmarkService {
 
     private Logger log = LoggerFactory.getLogger(LogBenchmarkService.class);
-    
+
+    @Inject(optional = true)
     public void setLog(@Named(LogBenchmarkServiceConfig.CATEGORY) Logger log) {
         this.log = Preconditions.checkNotNull(log, "Log");
     }
-    
+
     @Override
     public void log(Class<? extends IpcCommand> command, long time, TimeUnit timeUnit, IpcCall call,
         Map<String, Object> result) {
@@ -50,5 +50,5 @@ final class LogBenchmarkService implements BenchmarkService {
             command, time, timeUnit.name().toLowerCase(), call
         });
     }
-    
+
 }

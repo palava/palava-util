@@ -24,6 +24,12 @@ package de.cosmocode.palava.util.benchmark;
 public final class BenchmarkConfig {
 
     public static final String PREFIX = "benchmark.";
+
+    public static final String ACTIVE = PREFIX + "active";
+
+    public static final String THRESHOLD = PREFIX + "threshold";
+
+    public static final String THRESHOLD_UNIT = PREFIX + "thresholdUnit";
     
     private BenchmarkConfig() {
         
