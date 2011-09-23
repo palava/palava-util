@@ -46,8 +46,8 @@ final class LogBenchmarkService implements BenchmarkService {
     public void log(Class<? extends IpcCommand> command, long time, TimeUnit timeUnit, IpcCall call,
         Map<String, Object> result) {
 
-        log.debug("{} took {} {}s to process {}", new Object[] {
-            command, time, timeUnit.name().toLowerCase(), call
+        log.debug("{} took {} {} to process {}", new Object[] {
+            command.getName(), time, timeUnit.name().toLowerCase(), call.getArguments()
         });
     }
 
