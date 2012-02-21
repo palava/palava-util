@@ -17,8 +17,11 @@
 package de.cosmocode.palava.util.enums;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Map;
 
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,6 +64,13 @@ public final class ValuesOf implements IpcCommand {
     
     private static final Logger LOG = LoggerFactory.getLogger(ValuesOf.class);
 
+    private final Injector injector;
+
+    @Inject
+    public ValuesOf(Injector injector) {
+        this.injector = injector;
+    }
+
     @Override
     public void execute(IpcCall call, Map<String, Object> result) throws IpcCommandExecutionException {
         final IpcArguments arguments = call.getArguments();
@@ -76,14 +86,21 @@ public final class ValuesOf implements IpcCommand {
         }
         
         Preconditions.checkArgument(type.isEnum(), "%s is no enum type", type);
-        
+
         final Enum<?>[] values = type.asSubclass(Enum.class).getEnumConstants();
-        
+
+        if (type.isAnnotationPresent(OrderBy.class)) {
+            final OrderBy annotation = type.getAnnotation(OrderBy.class);
+            @SuppressWarnings("unchecked")
+            final Comparator<Enum> comparator = (Comparator<Enum>) injector.getInstance(annotation.using());
+            Arrays.sort(values, comparator);
+        }
+
         if (LOG.isTraceEnabled()) {
             // to prevent heavy toString call
             LOG.trace("Found enum values for {}: {}", type, Arrays.toString(values));
         }
-        
+
         result.put(VALUES, values);
     }
 

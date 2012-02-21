@@ -16,20 +16,21 @@
 
 package de.cosmocode.palava.util.enums;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import org.easymock.EasyMock;
-import org.junit.Assert;
-import org.junit.Test;
-
+import com.google.inject.Guice;
 import com.google.inject.internal.Maps;
-
 import de.cosmocode.junit.UnitProvider;
 import de.cosmocode.palava.ipc.IpcArguments;
 import de.cosmocode.palava.ipc.IpcCall;
 import de.cosmocode.palava.ipc.IpcCommandExecutionException;
+import org.easymock.EasyMock;
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Tests {@link ValuesOf}.
@@ -40,13 +41,13 @@ public final class ValuesOfTest implements UnitProvider<ValuesOf> {
 
     @Override
     public ValuesOf unit() {
-        return new ValuesOf();
+        return new ValuesOf(Guice.createInjector());
     }
-    
+
     /**
      * Tests {@link ValuesOf} with a valid input.
-     * 
-     * @throws IpcCommandExecutionException if execution failed, should not happen 
+     *
+     * @throws IpcCommandExecutionException if execution failed, should not happen
      */
     @Test
     public void valid() throws IpcCommandExecutionException {
@@ -55,22 +56,47 @@ public final class ValuesOfTest implements UnitProvider<ValuesOf> {
         EasyMock.expect(arguments.getString(ValuesOf.CLASS)).andReturn(TimeUnit.class.getName());
         EasyMock.expect(call.getArguments()).andReturn(arguments);
         EasyMock.replay(call, arguments);
-        
+
         final Map<String, Object> result = Maps.newLinkedHashMap();
         unit().execute(call, result);
-        
+
         final Enum<?>[] values = Enum[].class.cast(result.get(ValuesOf.VALUES));
-        
+
         Assert.assertNotNull(values);
         Assert.assertFalse(values.length == 0);
-        
+
         Assert.assertArrayEquals(TimeUnit.values(), values);
         EasyMock.verify(call, arguments);
     }
-    
+
+    @Test
+    public void sorted() throws IpcCommandExecutionException {
+        final IpcCall call = EasyMock.createMock("call", IpcCall.class);
+        final IpcArguments arguments = EasyMock.createMock("arguments", IpcArguments.class);
+        EasyMock.expect(arguments.getString(ValuesOf.CLASS)).andReturn(Weekday.class.getName());
+        EasyMock.expect(call.getArguments()).andReturn(arguments);
+        EasyMock.replay(call, arguments);
+
+        final Map<String, Object> result = Maps.newLinkedHashMap();
+        unit().execute(call, result);
+
+        final Enum<?>[] values = Enum[].class.cast(result.get(ValuesOf.VALUES));
+
+        Assert.assertNotNull(values);
+        Assert.assertFalse(values.length == 0);
+
+        final Weekday[] expected = {
+            Weekday.MONDAY, Weekday.TUESDAY, Weekday.WEDNESDAY, Weekday.THURSDAY,
+            Weekday.FRIDAY, Weekday.SATURDAY, Weekday.SUNDAY
+        };
+        Assert.assertArrayEquals(expected, values);
+
+        EasyMock.verify(call, arguments);
+    }
+
     /**
      * Tests {@link ValuesOf} with a wrong class name.
-     * 
+     *
      * @throws ClassNotFoundException expected
      */
     @Test(expected = ClassNotFoundException.class)
@@ -80,9 +106,9 @@ public final class ValuesOfTest implements UnitProvider<ValuesOf> {
         EasyMock.expect(arguments.getString(ValuesOf.CLASS)).andReturn("java.uti.TimeUnit");
         EasyMock.expect(call.getArguments()).andReturn(arguments);
         EasyMock.replay(call, arguments);
-        
+
         final Map<String, Object> result = Maps.newLinkedHashMap();
-        
+
         try {
             unit().execute(call, result);
         } catch (IpcCommandExecutionException e) {
@@ -94,7 +120,7 @@ public final class ValuesOfTest implements UnitProvider<ValuesOf> {
             }
         }
     }
-    
+
     /**
      * Tests {@link ValuesOf} with a class name which addresses a valid non-enum class.
      */
@@ -105,9 +131,9 @@ public final class ValuesOfTest implements UnitProvider<ValuesOf> {
         EasyMock.expect(arguments.getString(ValuesOf.CLASS)).andReturn(ArrayList.class.getName());
         EasyMock.expect(call.getArguments()).andReturn(arguments);
         EasyMock.replay(call, arguments);
-        
+
         final Map<String, Object> result = Maps.newLinkedHashMap();
-        
+
         try {
             unit().execute(call, result);
         } catch (IpcCommandExecutionException e) {
@@ -119,5 +145,5 @@ public final class ValuesOfTest implements UnitProvider<ValuesOf> {
             }
         }
     }
-    
+
 }
