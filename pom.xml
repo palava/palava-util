@@ -8,7 +8,7 @@
   <groupId>de.cosmocode.palava</groupId>
   <artifactId>palava-util</artifactId>
   <name>Palava Util</name>
-  <version>1.4-SNAPSHOT</version>
+  <version>1.4.0</version>
   <scm>
     <developerConnection>scm:git:git@github.com:palava/${project.artifactId}.git</developerConnection>
   </scm>
